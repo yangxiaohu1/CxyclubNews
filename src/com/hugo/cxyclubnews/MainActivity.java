@@ -6,6 +6,8 @@ import android.view.Menu;
 
 public class MainActivity extends Activity {
 
+	private int i = 3;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -16,12 +18,12 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		
-		//修改代码。。。。
-		
-		return true;
-		
-		//Edit by orange;
-	}
 
+		// 修改代码。。。。
+
+		return true;
+
+		// Edit by orange;
+
+	}
 }
