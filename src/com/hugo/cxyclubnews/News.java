@@ -1,6 +1,7 @@
 package com.hugo.cxyclubnews;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,10 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import android.os.StrictMode;
 
 public class News {
 	private static final String requestUri = "http://cxyclub.cn/BaiDu.xml";
@@ -28,7 +32,9 @@ public class News {
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder builder = builderFactory.newDocumentBuilder();
-		Document document = builder.parse(requestUri);
+
+		URL url = new URL(requestUri);
+		Document document = builder.parse(new InputSource(url.openStream()));
 
 		XPathFactory xPathFactory = XPathFactory.newInstance();
 		XPath xPath = xPathFactory.newXPath();
@@ -42,7 +48,7 @@ public class News {
 
 		return list;
 	}
-	
+
 	public static List<String> fakeRequestNewsList() {
 		List<String> list = new ArrayList<String>();
 		list.add("Aaa");

@@ -57,7 +57,7 @@ public class MainActivity extends ListActivity {
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}
