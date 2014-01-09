@@ -1,15 +1,11 @@
 package com.hugo.cxyclubnews;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.xml.sax.SAXException;
+import com.hugo.cxyclubnews.utils.News;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -25,41 +21,38 @@ public class MainActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		try {
+		final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
-			List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-			HashMap<String, String> map;
-			List<String> titleList = News.requestNewsList();
+		Thread thread = new Thread(new Runnable() {
 
-			for (int i = 0, j = titleList.size(); i < j; i++) {
-				map = new HashMap<String, String>();
-				map.put("title", titleList.get(i));
-				list.add(map);
-				if (i > 5)
-					break;
+			@Override
+			public void run() {
+				ArrayList<String> titlelist = News.getTitles();
+				for (int i = 0, j = titlelist.size(); i < j; i++) {
+					String titleString = titlelist.get(i);
+					HashMap<String, String> map = new HashMap<String, String>();
+					map.put("title", titleString);
+					list.add(map);
+					if (i > 5)
+						break;
+
+				}
 			}
-
-			SimpleAdapter adapter = new SimpleAdapter(this, list,
-					R.layout.list_view, new String[] { "title" },
-					new int[] { R.id.title });
-			setListAdapter(adapter);
-		} catch (XPathExpressionException e) {
+		});
+		
+		thread.start();
+		
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
+
+		SimpleAdapter adapter = new SimpleAdapter(this, list,
+				R.layout.list_view, new String[] { "title" },
+				new int[] { R.id.title });
+		setListAdapter(adapter);
 	}
 
 	@Override
